@@ -1,7 +1,7 @@
 # Landing Page Redesign — Design Brief
 
 **Status:** chapter map implemented (2026-09-26) — pending visual pass
-**Scope:** `ui/app/page.tsx` (+ minor `layout.tsx` font links, `globals.css`)
+**Scope:** `app/page.tsx` (+ minor `layout.tsx` font links, `globals.css`)
 
 ## Problem
 
@@ -29,7 +29,7 @@ protagonist; the blockchain is the plot device, not the headline.
 | 5 | **Epilogue** | Compressed: partners marquee, awards (3 items), team (4 avatars), roadmap link, footer as usual. | static |
 
 Post-brief addition: **Expansion** chapter (between Voyage and Epilogue),
-`ui/components/ExpansionMap.tsx` — react-simple-maps dark nautical map, Quy
+`components/ExpansionMap.tsx` — react-simple-maps dark nautical map, Quy
 Nhơn home port with dotted lanes to Busan, Tokyo, Rotterdam; pilot-partner
 call to action.
 

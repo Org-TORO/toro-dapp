@@ -16,10 +16,10 @@ Factory field app (future) / seed script (now)
 Solana devnet — toro program (2cbYretd...4FWc)
         │  events only (BatchMinted, TraceRecorded, LotCreated)
         ▼
-ui/scripts/indexer-solana.ts  (crawls logs, decodes abi payloads)
+scripts/indexer-solana.ts  (crawls logs, decodes abi payloads; in this repo)
         │
         ▼
-ui/src/data/traceIndex.json   (static snapshot — the UI's ONLY data source)
+src/data/traceIndex.json   (static snapshot — the UI's ONLY data source)
         │
         ▼
 Next.js UI: /explorer/[id] detail pages, /trustgraph, landing page
@@ -27,7 +27,8 @@ Next.js UI: /explorer/[id] detail pages, /trustgraph, landing page
 
 - **Two-level lifecycle:** Batches (raw material, stages 1→2→3) are merged into
   Lots (finished product, stages 3→4→5) via `create_product_lot` (1–16 inputs,
-  all must be at Manufacturing). See `contracts/solana/docs/toro-program.md`.
+  all must be at Manufacturing). See `docs/toro-program.md` in the separate
+  `toro-contracts` repo (this app pins its IDL at `src/idl/toro.json`).
 - **Access control:** authority (super-user) > factory signers (mint/create
   lots) > stations (record stage transitions). Roles are existence-marker PDAs.
 
@@ -55,7 +56,7 @@ Next.js UI: /explorer/[id] detail pages, /trustgraph, landing page
   the story lot.
 - **Old EVM origins** still visible: abi-encoded payloads, CODE_REGISTRY, seed
   script mirrors Solidity scripts. Keep EVM parity unless deliberately breaking.
-- `ui/dist/` contains stale build artifacts; real build output dir is configured
+- `dist/` contains stale build artifacts; real build output dir is configured
   in `next.config.ts` (check before cleaning anything).
 
 ## Content/design direction
@@ -69,6 +70,6 @@ real trace data, scroll-driven motion, restraint.
 ## Team / external
 
 - Team: Tron (chain), Chow (BA), Hoang (graph), Duy (web app).
-- Partners: BK START, IEC, NExus, SPT, Superteam (logos in `ui/public/partner/`).
+- Partners: BK START, IEC, NExus, SPT, Superteam (logos in `public/partner/`).
 - Achievements: Top 5 @ THE NEXGEN 2026, Bronze @ Design & Fabrication 2026,
   2nd Runner Up @ SuperteamVN "Bring Your Web2 Ideas Onchain" bounty.

@@ -1,4 +1,4 @@
-// Trust graph page strings (ui/app/trustgraph/page.tsx + components/TrustGraphSimulator.tsx).
+// Trust graph page strings (app/trustgraph/page.tsx + components/TrustGraphSimulator.tsx).
 export const en = {
   graph: {
     hero: {

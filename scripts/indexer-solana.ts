@@ -1,6 +1,6 @@
 /**
  * Solana indexer: reads TORO program events from devnet
- * and generates ui/src/data/traceIndex.json (same shape as the EVM indexer).
+ * and generates src/data/traceIndex.json (same shape as the EVM indexer).
  *
  * Usage: npx tsx scripts/indexer-solana.ts [program-id] [rpc-url]
  * Defaults: program id from src/idl/toro.json (synced from the toro-contracts

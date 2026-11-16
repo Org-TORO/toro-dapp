@@ -1,4 +1,4 @@
-// Landing page strings (ui/app/page.tsx). Dynamic values are functions.
+// Landing page strings (app/page.tsx). Dynamic values are functions.
 export const en = {
   landing: {
     hero: {
