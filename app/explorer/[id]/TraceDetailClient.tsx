@@ -7,6 +7,7 @@ import { fetchProductLot, explorerUrl } from "@/src/lib/trace";
 import type { ProductLot, TraceStage } from "@/src/lib/trace";
 import { useT } from "@/src/lib/i18n";
 import type { Locale } from "@/src/lib/i18n";
+import { PROGRAM_ID } from "@/src/lib/toro";
 
 function getDetail(traces: TraceStage[], stage: number, key: string): string {
   const t = traces.find((x) => x.stage === stage);
@@ -465,7 +466,7 @@ export default function TraceDetailClient() {
               </div>
               <div className="mt-5 font-mono-data text-[10px] text-white/30 space-y-1.5">
                 <p>{td.recorderLabel} · {recorder ? shortKey(recorder) : "…"}</p>
-                <p>{td.programLabel} · {shortKey("2cbYretd93guxpURxqhq1UedBtwSHzT2NX6MsrBc4FWc")}</p>
+                <p>{td.programLabel} · {shortKey(PROGRAM_ID)}</p>
                 <p>{td.networkLabel} · {td.networkValue}</p>
               </div>
           </div>

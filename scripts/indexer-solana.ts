@@ -3,7 +3,8 @@
  * and generates ui/src/data/traceIndex.json (same shape as the EVM indexer).
  *
  * Usage: npx tsx scripts/indexer-solana.ts [program-id] [rpc-url]
- * Defaults: program id from contracts/solana/target/idl/toro.json, devnet RPC.
+ * Defaults: program id from src/idl/toro.json (synced from the toro-contracts
+ * repo via `npm run idl:sync`), devnet RPC.
  */
 
 import * as anchor from "@anchor-lang/core";
@@ -199,7 +200,7 @@ type LotEntry = {
 };
 
 async function main() {
-  const idlPath = path.join(__dirname, "../../contracts/solana/target/idl/toro.json");
+  const idlPath = path.join(__dirname, "../src/idl/toro.json");
   const idl = JSON.parse(fs.readFileSync(idlPath, "utf-8"));
   const programId = new PublicKey(process.argv[2] ?? idl.address);
   const rpcUrl = process.argv[3] ?? "https://api.devnet.solana.com";

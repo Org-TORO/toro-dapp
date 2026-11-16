@@ -1,54 +1,48 @@
-# TORO — Agent Orientation
+# TORO Dapp — Agent Orientation
 
 **TORO (Trustless Oceanic Record of Origin)** is a seafood supply-chain
 traceability platform. Every tuna can is traced "from ocean to shelf" with
-immutable records on **Solana devnet**. Built by a Vietnamese student team
-(incubated at VNU-HCM / New Energy Nexus Vietnam). Live demo:
+immutable records on **Solana devnet**. Live demo:
 https://toro-dapp.vercel.app
+
+This repo is the **dapp only**. The Anchor program lives in the separate
+`toro-contracts` repo; this app consumes its published IDL artifact.
 
 ## Repo layout
 
 ```
-ui/                Next.js 15 (App Router) marketing + traceability site
-  app/             Routes: / (landing), /explorer, /explorer/[id], /trustgraph,
-                   /contact + /api/contact (Resend partner-inquiry form)
-  components/      Can3D (react-three-fiber), TrustGraphSimulator, TraceTreeAnimation, etc.
-  src/lib/trace.ts Types + fetchProductLot() over the static JSON index
-  src/data/traceIndex.json  GENERATED FILE — do not hand-edit (see Indexer)
-  scripts/indexer-solana.ts Crawls devnet events → regenerates traceIndex.json
-contracts/solana/  Anchor (Rust) program — port of the original EVM ToroRegistry
-  programs/toro/src/  All on-chain code (~730 lines, fully documented)
-  scripts/seed.ts     Idempotent devnet seeder (demo traces: TORO-01..05 from
-                      2024 + TORO-06..10 October-2026 refresh wave)
-  docs/toro-program.md  Authoritative on-chain reference — READ THIS FIRST
-  data/CODE_REGISTRY.md Trace-data field codes (0x100..0x600)
+app/               Next.js 15 App Router: / (landing), /explorer, /explorer/[id],
+                   /trustgraph, /contact + /api/contact (Resend partner form)
+components/        Can3D (react-three-fiber), TrustGraphSimulator, TraceTreeAnimation, etc.
+src/lib/trace.ts   Types + fetchProductLot() over the static JSON index
+src/lib/toro.ts    PROGRAM_ID + Solscan URL helpers — single source of truth
+src/idl/toro.json  COPIES the program IDL. Do not hand-edit; run `npm run idl:sync`
+src/data/traceIndex.json  GENERATED FILE — do not hand-edit (see indexer)
+scripts/indexer-solana.ts Crawls devnet events → regenerates traceIndex.json
 docs/              Project memory: PROJECT-STATE.md, DECISIONS.md, PROGRESS.md
 ```
 
 ## Key commands
 
 ```bash
-# UI (from ui/)
-npm run dev                          # dev server
-npm run build                        # production build (output: .next, hybrid SSG + dynamic)
-npx tsx scripts/indexer-solana.ts    # rebuild src/data/traceIndex.json from devnet
-
-# Solana program (from contracts/solana — needs Anchor + Solana toolchain)
-anchor build / anchor test           # compile / 14 mocha tests (local validator)
-anchor deploy --provider.cluster devnet
-yarn seed                            # seed/resume demo traces (idempotent)
+npm run dev        # dev server
+npm run build      # production build (hybrid SSG + dynamic)
+npm run index      # rebuild src/data/traceIndex.json from devnet
+npm run idl:sync   # copy ../toro-contracts/idl/toro.json → src/idl/toro.json
 ```
+
+`index` and `idl:sync` expect the `toro-contracts` repo checked out as a
+**sibling directory**; otherwise sync the IDL file manually.
 
 ## Non-negotiable conventions
 
-- **On-chain program:** event-only rich data. Chain stores only stages/counters;
-  all trace details live in event payload blobs
-  (`abi.encode(uint256[] codes, bytes32[] values)`). Never add rich data to
-  accounts without updating DECISIONS.md, the indexer, and seed script together.
-- **UI data source:** `ui/src/data/traceIndex.json` is generated. After
-  re-seeding devnet, re-run the indexer.
-- **Program ID:** `2cbYretd93guxpURxqhq1UedBtwSHzT2NX6MsrBc4FWc` (devnet).
-- **Styling:** Tailwind 4, theme colors in `ui/app/globals.css` (`@theme`:
+- **Data source:** `src/data/traceIndex.json` is generated. After re-seeding
+  devnet, re-run the indexer.
+- **IDL is a pinned artifact.** If the program's instructions/events/accounts
+  change, bump `src/idl/toro.json` from the contracts release in the same
+  commit as any decoding change. Never read the IDL from a `target/` directory.
+- **Program ID:** only in `src/lib/toro.ts`. Never hardcode it in components.
+- **Styling:** Tailwind 4, theme colors in `app/globals.css` (`@theme`:
   ocean #3e96cc, deep #0a1628, gold #ffc354). Dark navy "deep ocean" identity.
 - **Minimal changes:** follow existing code style; don't refactor unrelated code.
 
@@ -57,6 +51,6 @@ yarn seed                            # seed/resume demo traces (idempotent)
 1. Read `docs/PROJECT-STATE.md` (current state + known gaps)
 2. Read `docs/PROGRESS.md` (what was done, what's next — dated log)
 3. Read `docs/DECISIONS.md` if you might contradict an earlier decision
-4. Read `contracts/solana/docs/toro-program.md` before touching on-chain code
+4. For on-chain semantics, read the contracts repo's `docs/toro-program.md`
 
 Update PROGRESS.md (and this file, if structure/commands change) as you work.

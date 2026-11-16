@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useT } from "@/src/lib/i18n";
+import { solscanAccountUrl } from "@/src/lib/toro";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -112,7 +113,7 @@ export default function Navbar() {
             {locale === "en" ? "VI" : "EN"}
           </button>
           <a
-            href="https://solscan.io/account/2cbYretd93guxpURxqhq1UedBtwSHzT2NX6MsrBc4FWc?cluster=devnet"
+            href={solscanAccountUrl()}
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:inline-flex px-4 py-2 rounded-lg border border-white/[0.08] text-white/50 hover:text-white hover:border-white/20 transition-all text-sm font-medium no-underline"

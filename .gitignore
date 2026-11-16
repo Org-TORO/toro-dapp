@@ -29,3 +29,9 @@ dist-ssr
 
 # Environment variables
 .env
+
+# Build info / caches
+*.tsbuildinfo
+.next/
+out/
+.DS_Store

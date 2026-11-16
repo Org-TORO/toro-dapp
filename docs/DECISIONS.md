@@ -3,6 +3,30 @@
 Newest first. Each entry: date, decision, rationale. If you reverse or amend a
 decision, add a new entry — don't delete history.
 
+## 2026-11-16 — Split into two repos: `toro-contracts` + `toro-dapp`
+
+**Decision:** The Anchor program and the Next.js dapp live in separate git
+repositories. History was carried over per path with `git filter-repo` on
+clones, so each repo keeps its real commits and the original monorepo remains
+intact as an archive (nothing was rewritten in place).
+
+**Rationale:** the two halves have different toolchains (Rust/Anchor vs
+Node/Next), different release cadence, and will soon be worked on by different
+people. Contract CI should not rebuild the dapp on every program change.
+The only code coupling was one-directional and artifact-shaped: the dapp read
+the program IDL from a gitignored build directory.
+
+**Consequences:**
+- The contracts repo commits `idl/toro.json` as a versioned release artifact.
+  `target/` stays ignored. Consumers pin the schema by commit SHA.
+- The dapp vendors that artifact at `src/idl/toro.json` and refreshes it with
+  `npm run idl:sync` (expects the contracts repo as a sibling directory).
+- Code changes that span both sides (e.g. a new event field) now require two
+  commits in two repos, in a fixed order: program → IDL → dapp decoding.
+- `PROGRAM_ID` lives only in `src/lib/toro.ts` on the dapp side.
+- The 10 commits that touched both halves appear in both repos; that is
+expected, not duplication to clean up.
+
 ## 2026-09-26 — Landing page becomes a story, not a brochure
 
 **Decision:** Rebuild `/` as scroll chapters following one real lot (TORO-01):

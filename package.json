@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "idl:sync": "cp ../toro-contracts/idl/toro.json src/idl/toro.json",
+    "index": "tsx scripts/indexer-solana.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

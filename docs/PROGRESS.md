@@ -4,6 +4,35 @@ Newest first. One entry per work session: what was done, verified, and what's
 next. **Update this at the end of every session** — it's the cheapest way for
 any agent (or human) to resume without re-reading the codebase.
 
+## 2026-11-16 — Repo split: dapp and contracts are now separate repos (session 13)
+
+**Problem:** one repo held the Anchor program, the Next.js dapp, and shared
+docs. Contract CI (Rust/Anchor) and dapp CI (Node/Vercel) ran on every change,
+and the two halves could not be versioned independently.
+
+**Done (this repo):**
+- Split from the monorepo with history preserved (`git filter-repo
+  --path ui/ --path docs/ --path AGENTS.md --path-rename ui/:`): **105 of 138
+  commits** retained. The originals remain untouched in the archived monorepo.
+- The dapp no longer reads `../contracts/solana/target/idl/toro.json` (a
+  gitignored build directory). The IDL is now a **vendored artifact** at
+  `src/idl/toro.json`, synced with `npm run idl:sync`.
+- New `src/lib/toro.ts` is the single source of truth for `PROGRAM_ID` and
+  Solscan URLs; the ID was hardcoded in `page.tsx` (×2),
+  `TraceDetailClient.tsx`, `Navbar.tsx`, `Footer.tsx`.
+- Added `npm run index`; `.gitignore` now covers `*.tsbuildinfo`; untracked
+  `tsconfig.tsbuildinfo`.
+
+**Verified:** `npx tsc --noEmit` clean; `npm run build` green (18 pages, all
+10 lots prerendered); IDL path resolves from `scripts/`; `BorshEventCoder`
+constructs against the vendored IDL.
+
+**Next:**
+- [ ] Push this repo to its own remote; add a Vercel project rooted here
+- [ ] Push `toro-contracts` to its own remote; add Anchor CI there
+- [ ] Consider publishing `@toro/idl` from the contracts repo to replace the
+      sibling-directory `idl:sync` copy
+
 ## 2026-10-25 — Fresh demo wave TORO-06..10 on devnet (session 12)
 
 **Problem:** the 5 explorer demo cans (TORO-01..05) were seeded with

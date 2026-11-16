@@ -1,4 +1,5 @@
 import traceIndex from "../data/traceIndex.json";
+import { solscanTxUrl } from "./toro";
 
 // ───────── Types ─────────
 
@@ -44,7 +45,7 @@ export async function fetchProductLot(lotCode: string): Promise<ProductLot | nul
 // ───────── Explorer URL ─────────
 
 export function explorerUrl(txHash: string): string {
-  return `https://solscan.io/tx/${txHash}?cluster=devnet`;
+  return solscanTxUrl(txHash);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

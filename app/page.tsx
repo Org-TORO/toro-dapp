@@ -29,6 +29,7 @@ import StampButton from "@/components/StampButton";
 import { useT } from "@/src/lib/i18n";
 import traceIndex from "@/src/data/traceIndex.json";
 import { explorerUrl } from "@/src/lib/trace";
+import { PROGRAM_ID, solscanAccountUrl } from "@/src/lib/toro";
 
 /* ════════════════════════════════════════════════════════════════════
    ONE CAN, ONE JOURNEY · the landing page tells the true story of
@@ -39,8 +40,7 @@ import { explorerUrl } from "@/src/lib/trace";
 
 const STORY_LOT_CODE = "TORO-01";
 const TRACE_URL = "https://toro-dapp.vercel.app/explorer/TORO-01";
-const PROGRAM_URL =
-  "https://solscan.io/account/2cbYretd93guxpURxqhq1UedBtwSHzT2NX6MsrBc4FWc?cluster=devnet";
+const PROGRAM_URL = solscanAccountUrl();
 
 const index = traceIndex as unknown as {
   lots: Record<string, any>;
@@ -472,7 +472,7 @@ function TheProof() {
             </div>
             <div className="mt-6 pt-4 border-t border-white/10 font-mono-data text-[11px] text-white/30 space-y-1.5">
               <p>{t.landing.proofChapter.meta.recorder} · {shortKey(source?.recorder ?? "")}</p>
-              <p>{t.landing.proofChapter.meta.program} · {shortKey("2cbYretd93guxpURxqhq1UedBtwSHzT2NX6MsrBc4FWc")}</p>
+              <p>{t.landing.proofChapter.meta.program} · {shortKey(PROGRAM_ID)}</p>
               <p>{t.landing.proofChapter.meta.cluster} · devnet</p>
             </div>
           </motion.div>

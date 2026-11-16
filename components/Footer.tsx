@@ -3,6 +3,7 @@
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { useT } from "@/src/lib/i18n";
+import { solscanAccountUrl } from "@/src/lib/toro";
 
 export default function Footer() {
   const { t } = useT();
@@ -39,7 +40,7 @@ export default function Footer() {
               <a href="/#team" className="block text-white/60 hover:text-white text-sm transition-colors no-underline">
                 {t.footer.team}
               </a>
-              <a href="https://solscan.io/account/2cbYretd93guxpURxqhq1UedBtwSHzT2NX6MsrBc4FWc?cluster=devnet" target="_blank" rel="noopener noreferrer" className="block text-white/60 hover:text-ocean text-sm transition-colors no-underline flex items-center gap-1.5">
+              <a href={solscanAccountUrl()} target="_blank" rel="noopener noreferrer" className="block text-white/60 hover:text-ocean text-sm transition-colors no-underline flex items-center gap-1.5">
                 {t.footer.contracts}
                 <ExternalLink className="w-3 h-3" />
               </a>

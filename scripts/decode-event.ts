@@ -17,7 +17,7 @@ import { decodeAbiParameters, parseAbiParameters } from "viem";
 import * as fs from "fs";
 import * as path from "path";
 
-// ───────── Code registry (mirrors contracts/solana/data/CODE_REGISTRY.md) ─────────
+// ───────── Code registry (canonical copy: toro-contracts/data/CODE_REGISTRY.md) ─────────
 
 const LOOKUPS: Record<number, Record<number, string>> = {
   0x100: { 1: "Vessel", 2: "Farm" },
@@ -91,7 +91,7 @@ function main() {
   const b64 = input.replace(/^Program data:\s*/, "").trim();
 
   const idl = JSON.parse(
-    fs.readFileSync(path.join(__dirname, "../../contracts/solana/target/idl/toro.json"), "utf-8")
+    fs.readFileSync(path.join(__dirname, "../src/idl/toro.json"), "utf-8")
   );
   const coder = new anchor.BorshEventCoder(idl);
 
